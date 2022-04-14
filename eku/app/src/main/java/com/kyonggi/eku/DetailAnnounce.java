@@ -1,10 +1,13 @@
 package com.kyonggi.eku;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -37,6 +40,7 @@ public class DetailAnnounce extends AppCompatActivity {
                 this, android.R.layout.simple_spinner_item,items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinner.setAdapter(adapter);
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -81,13 +85,17 @@ public class DetailAnnounce extends AppCompatActivity {
 
         LinearLayout buttonLayout =  (LinearLayout) findViewById(R.id.detail_announce_button);
         buttonLayout.setGravity(Gravity.CENTER);
+
+
         if (PreferenceManagers.getString(getApplicationContext(), "announce_writer"+Lid).equals("고일석")){
             Button modifyButton = new Button(getApplicationContext());
             modifyButton.setText("수정");
             modifyButton.setOnClickListener(new Button.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getApplicationContext(),"수정", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"수정되었습니다.", Toast.LENGTH_SHORT).show();
+
+
                 }
             });
             Button deleteButton = new Button(getApplicationContext());
@@ -95,7 +103,7 @@ public class DetailAnnounce extends AppCompatActivity {
             deleteButton.setOnClickListener(new Button.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getApplicationContext(),"삭제", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"삭제되었습니다.", Toast.LENGTH_SHORT).show();
                 }
             });
             buttonLayout.addView(modifyButton);

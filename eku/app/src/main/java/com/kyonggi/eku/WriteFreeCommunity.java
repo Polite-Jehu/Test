@@ -4,18 +4,25 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 public class WriteFreeCommunity extends AppCompatActivity {
 
@@ -105,11 +112,41 @@ public class WriteFreeCommunity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),building, Toast.LENGTH_SHORT).show();
                 PreferenceManagers.setString(getApplicationContext(), building, buildingtext);
 
+                /*  백에서 시간을 저장
                 long now = System.currentTimeMillis();
                 Date date = new Date(now);
                 SimpleDateFormat timeFormat = new SimpleDateFormat("MM-dd hh-mm");
                 String time = timeFormat.format(date);
                 PreferenceManagers.setString(getApplicationContext(), "FreeCommunity_time" + count, time);
+                 */
+
+                Handler handler = new Handler() {
+                    public void handleMessage(@NonNull Message msg){
+                        switch (msg.what){
+                            case 0 :
+                                String responseResult = (String) msg.obj;
+                                Toast.makeText(getApplicationContext(),responseResult,Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                };
+
+                SendTool sendTool = new SendTool(handler);
+                HashMap<String,String> temp2 = new HashMap<>();
+
+
+                temp2.put("StundentID", "201713924");
+                temp2.put("StundentName","이동엽");
+                temp2.put("major", "컴퓨터공학과");
+                temp2.put("title", "서버전송 test 제목");
+                temp2.put("content","서버전송 test 내용");
+
+                try {
+                    sendTool.request("http://115.85.182.126:8080/공지글","POST",temp2);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 activityResultLauncher.launch(intent);
                 finish();

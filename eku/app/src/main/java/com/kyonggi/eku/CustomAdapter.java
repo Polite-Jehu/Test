@@ -22,6 +22,9 @@ import java.util.Date;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.viewHolder> {
 
+    /*
+        todolist 어댑터
+     */
     private ArrayList<TodoItem> mTodoItems;
     private Context mContext;
     private DBHelper mDBHelper;

@@ -91,6 +91,7 @@ public class DetailFreeCommunity extends AppCompatActivity {
             update_comment(count);
         }
 
+        /* 댓글 */
         ImageButton writeButton = (ImageButton) findViewById(R.id.detail_Free_Write_Comment_button);
         writeButton.setOnClickListener(new Button.OnClickListener() {
             @Override
