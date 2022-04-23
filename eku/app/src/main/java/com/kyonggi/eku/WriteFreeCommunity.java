@@ -141,7 +141,7 @@ public class WriteFreeCommunity extends AppCompatActivity {
                 temp2.put("content","서버전송 test 내용");
 
                 try {
-                    sendTool.request("http://115.85.182.126:8080/공지글","POST",temp2);
+                    sendTool.request("www.eku.kro.kr/board/free/write","POST",temp2);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {

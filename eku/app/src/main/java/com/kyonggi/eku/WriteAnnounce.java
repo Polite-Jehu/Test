@@ -135,13 +135,12 @@ public class WriteAnnounce extends AppCompatActivity {
                 HashMap<String,String> temp2 = new HashMap<>();
 
 
-                temp2.put("StundentID", "201713924");
-                temp2.put("major", "컴퓨터공학과");
-                temp2.put("title", "서버전송 test 제목");
-                temp2.put("content","서버전송 test 내용");
+                temp2.put("content","서버전송 공지 test");
+                temp2.put("writer","201713924");
+                temp2.put("articleID","8");
 
                 try {
-                    sendTool.request("http://115.85.182.126:8080/게시글","POST",temp2);
+                    sendTool.request(" www.eku.kro.kr/comment/info/write","POST",temp2);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {

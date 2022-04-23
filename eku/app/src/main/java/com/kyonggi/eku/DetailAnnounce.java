@@ -21,6 +21,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class DetailAnnounce extends AppCompatActivity {
@@ -95,6 +99,32 @@ public class DetailAnnounce extends AppCompatActivity {
                 public void onClick(View view) {
                     Toast.makeText(getApplicationContext(),"수정되었습니다.", Toast.LENGTH_SHORT).show();
 
+                    Handler handler = new Handler() {
+                        public void handleMessage(@NonNull Message msg){
+                            switch (msg.what){
+                                case 0 :
+                                    String responseResult = (String) msg.obj;
+                                    Toast.makeText(getApplicationContext(),responseResult,Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    };
+
+                    SendTool sendTool = new SendTool(handler);
+                    HashMap<String,String> temp2 = new HashMap<>();
+
+
+                    temp2.put("contentID","8");
+                    temp2.put("content","댓글?");
+
+
+                    try {
+                        sendTool.request(" www.eku.kro.kr/comment/info/update","POST",temp2);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
 
                 }
             });
@@ -104,6 +134,29 @@ public class DetailAnnounce extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(getApplicationContext(),"삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                    Handler handler = new Handler() {
+                        public void handleMessage(@NonNull Message msg){
+                            switch (msg.what){
+                                case 0 :
+                                    String responseResult = (String) msg.obj;
+                                    Toast.makeText(getApplicationContext(),responseResult,Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    };
+
+                    SendTool sendTool = new SendTool(handler);
+                    HashMap<String,String> temp2 = new HashMap<>();
+
+
+                    temp2.put("commentID","8");
+
+                    try {
+                        sendTool.request(" www.eku.kro.kr/comment/info/delete","POST",temp2);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             buttonLayout.addView(modifyButton);
