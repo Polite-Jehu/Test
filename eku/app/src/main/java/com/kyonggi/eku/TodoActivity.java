@@ -1,8 +1,12 @@
 package com.kyonggi.eku;
 
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,17 +29,43 @@ import com.google.android.material.navigation.NavigationView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class TodoActivity extends AppCompatActivity {
 
     /*
      제목 : todolist
-
-
      기능 : todolist 추가 기능 수행
-
-
      */
+    private AlarmManager alarmManager;
+    private GregorianCalendar mCalender;
+
+    private NotificationManager notificationManager;
+    NotificationCompat.Builder builder;
+
+
     String[] showBuilding = {"1강의동","2강의동","3강의동","4강의동","5강의동","6강의동","7강의동","8강의동","9강의동","제2공학관"};
     int buildingSelected = 0;
     int[] building = {1,2,3,4,5,6,7,8,9,0};
@@ -50,8 +81,16 @@ public class TodoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
+
+
+
+        notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        mCalender = new GregorianCalendar();
+
 
         final DrawerLayout drawerLayout = findViewById(R.id.ToDo_drawerLayout);
 
@@ -131,7 +170,38 @@ public class TodoActivity extends AppCompatActivity {
                 .create();
 
 
-        setInit();
+
+    }
+
+    private void setAlarm(String from,String title,String contents,long id) {
+        //AlarmReceiver에 값 전달
+        Intent receiverIntent = new Intent(TodoActivity.this, AlarmRecevier.class);
+        receiverIntent.putExtra("title",title);
+        receiverIntent.putExtra("contents",contents);
+        receiverIntent.putExtra("id",id);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(TodoActivity.this, 0, receiverIntent, 0);
+
+        if(from==null)
+        {
+            from="1971-01-01 12:00:00";
+        }
+
+        //날짜 포맷을 바꿔주는 소스코드
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date datetime = null;
+        try {
+            datetime = dateFormat.parse(from);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(datetime);
+        alarmManager.set(AlarmManager.RTC,
+                calendar.getTimeInMillis(),
+                pendingIntent);
+
+
     }
 
     private void setInit() {
@@ -155,14 +225,14 @@ public class TodoActivity extends AppCompatActivity {
                 btn_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+                        Date date = new Date();
+                        String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
                         mDBHelper.InsertTodo(et_title.getText().toString(), et_content.getText().toString(), currentTime);
-
+                        setAlarm(currentTime,et_title.getText().toString(), et_content.getText().toString(),date.getTime());
                         TodoItem item = new TodoItem();
                         item.setTitle(et_title.getText().toString());
                         item.setContent(et_content.getText().toString());
                         item.setWriteDate(currentTime);
-
                         mAdapter.addItem(item);
                         mRv_todo.smoothScrollToPosition(0);
                         dialog.dismiss();
@@ -180,6 +250,7 @@ public class TodoActivity extends AppCompatActivity {
     private void loadRecentDB() {
 
         mTodoItems = mDBHelper.getTodoList();
+
         if(mAdapter == null) {
             mAdapter = new CustomAdapter(mTodoItems,this);
             mRv_todo.setHasFixedSize(true);
@@ -197,5 +268,35 @@ public class TodoActivity extends AppCompatActivity {
         if (System.currentTimeMillis() <= backKeyPressedTime + 2500) {
             finish();
         }
+
     }
+/*
+
+
+    public void showNoti(){
+        builder = null;
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //버전 오레오 이상일 경우
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            manager.createNotificationChannel(
+                    new NotificationChannel(CHANNEL_ID, CHANEL_NAME, NotificationManager.IMPORTANCE_DEFAULT));
+            builder = new NotificationCompat.Builder(this, CHANNEL_ID); //하위 버전일 경우
+        }
+        else
+        {
+            builder = new NotificationCompat.Builder(this);
+        }
+        //알림창 제목
+        builder.setContentTitle("슈 슈슉");
+
+        //알림창 메시지
+        //
+
+        //알림창 아이콘
+        builder.setSmallIcon(R.drawable.ic_megaphone);
+        Notification notification = builder.build();
+
+        //알림창 실행
+        manager.notify(1,notification);
+    }*/
 }

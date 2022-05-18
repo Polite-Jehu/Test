@@ -1,6 +1,7 @@
 package com.kyonggi.eku;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,7 +9,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DBHelper extends SQLiteOpenHelper {
     /*
@@ -74,7 +78,17 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("UPDATE TodoList SET title='"+_title+"',content='"+_content+"',writeDate='"+_writeDate+"' WHERE writeDate='"+_beforeDate+"'");
     }
 
-    public void DeleteTodo(String _beforeDate) {
+    public void DeleteTodo(String _beforeDate,Context context) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = format.parse(_beforeDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        NotificationManager manager;
+        manager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.cancel((int)(date.getTime()));
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM TodoList WHERE writeDate ='"+_beforeDate+"'");
     }

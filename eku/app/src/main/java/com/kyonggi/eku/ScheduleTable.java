@@ -47,7 +47,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-
 public class ScheduleTable extends AppCompatActivity {
 
     /*

@@ -120,8 +120,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.viewHolder
                             } else if (position == 1){
                                 //삭제
                                 String beforeTime = todoItem.getWriteDate();
-                                mDBHelper.DeleteTodo(beforeTime);
-
+                                mDBHelper.DeleteTodo(beforeTime,mContext);
                                 mTodoItems.remove(curPos);
                                 notifyItemRemoved(curPos);
                                 Toast.makeText(mContext, "목록이 제거되었습니다.",  Toast.LENGTH_SHORT).show();
