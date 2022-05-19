@@ -36,6 +36,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
+import com.kyonggi.eku.utils.adapters.ComminityRecyclerAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;

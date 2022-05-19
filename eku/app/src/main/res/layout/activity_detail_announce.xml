@@ -5,26 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="DetailAnnounce">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/detail_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:backgroundTint="#F6A788"
-        app:menu="@menu/detail_free_menu"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:visibility="invisible"
-        android:id="@+id/detail_announce_Spinner"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#FFFFFF"
-        android:backgroundTint="#F6A788"
-        android:gravity="center_vertical"
-        android:textSize="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/detail_toolbar"
@@ -51,12 +31,11 @@
         android:id="@+id/detail_total_announceView"
         android:layout_width="413dp"
         android:layout_height="550dp"
-        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_announce_Spinner"
-        tools:ignore="SpeakableTextPresentCheck">
+        tools:ignore="SpeakableTextPresentCheck"
+        tools:layout_editor_absoluteY="88dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detail_total_announcescroll"
@@ -78,11 +57,10 @@
                 android:id="@+id/detail_announce_writer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:text="작성자"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="@+id/detail_announce_content"
-                app:layout_constraintTop_toBottomOf="@+id/detail_announce_edit_content" />
+                tools:layout_editor_absoluteX="336dp"
+                tools:layout_editor_absoluteY="130dp" />
 
             <TextView
                 android:id="@+id/detail_announce_content"
@@ -100,26 +78,11 @@
                 android:id="@+id/detail_announce_edit_content"
                 android:layout_width="328dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="40dp"
                 android:background="@drawable/stroke_under"
                 android:text="내용"
                 android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/detail_announce_title"
-                app:layout_constraintTop_toBottomOf="@+id/detail_announce_building" />
-
-            <EditText
-                android:visibility="invisible"
-                android:id="@+id/detail_announce_edit_content"
-                android:layout_width="328dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/stroke_under"
-                android:text="내용"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_announce_title" />
+                tools:layout_editor_absoluteX="45dp"
+                tools:layout_editor_absoluteY="99dp" />
 
             <TextView
                 android:id="@+id/detail_announce_time"
@@ -132,25 +95,26 @@
                 app:layout_constraintTop_toBottomOf="@+id/detail_announce_content" />
 
 
-
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/detail_button_layout"
-                android:gravity="center"
-                app:layout_constraintTop_toBottomOf="@+id/detail_announce_time"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/detail_announce_time">
+
                 <Button
                     android:id="@+id/detail_edit_btn_submit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="수정하기"/>
+                    android:text="수정하기" />
+
                 <Button
                     android:id="@+id/detail_edit_btn_cancle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="취소"/>
+                    android:text="취소" />
             </LinearLayout>
 
             <TextView
@@ -164,16 +128,15 @@
                 tools:layout_editor_absoluteY="16dp" />
 
             <EditText
-                android:visibility="invisible"
                 android:id="@+id/detail_announce_edit_title"
                 android:layout_width="328dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:background="@drawable/stroke_under"
                 android:text="제목"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_announce_building" />
+                android:visibility="invisible"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="45dp"
+                tools:layout_editor_absoluteY="16dp" />
 
             <LinearLayout
                 android:id="@+id/detail_announce_button"
@@ -193,7 +156,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.463"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detail_announce_time"/>
+                app:layout_constraintTop_toBottomOf="@+id/detail_announce_time" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
