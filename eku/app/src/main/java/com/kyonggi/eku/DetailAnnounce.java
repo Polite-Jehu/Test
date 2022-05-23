@@ -54,6 +54,7 @@ public class DetailAnnounce extends AppCompatActivity {
     TextView tv_content;
     TextView tv_time;
     TextView tv_writer;
+    TextView tv_building;
 
     EditText et_title;
     EditText et_content;
@@ -80,6 +81,7 @@ public class DetailAnnounce extends AppCompatActivity {
         tv_title    = (TextView)findViewById(R.id.detail_announce_title);
         tv_content  = (TextView)findViewById(R.id.detail_announce_content);
         tv_time     = (TextView)findViewById(R.id.detail_announce_time);
+        tv_building = (TextView) findViewById(R.id.detail_announce_building);
         tv_writer   = (TextView)findViewById(R.id.detail_announce_writer);
 
         et_title    = (EditText) findViewById(R.id.detail_announce_edit_title);
